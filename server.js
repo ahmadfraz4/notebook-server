@@ -1,5 +1,5 @@
 require('dotenv').config();
-require('./db/conn');
+require('./src/db/conn');
 
 const express = require('express');
 const cors = require('cors');
@@ -23,8 +23,8 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
   });   
-app.use(require('./routers/user'));
-app.use('/notes',require('./routers/Notes'));
+app.use(require('./src/routers/user'));
+app.use('/notes',require('./src/routers/Notes'));
 
 
 
