@@ -8,7 +8,7 @@ let jwt = require('jsonwebtoken')
 let nodemailer = require('nodemailer')
 const authenticate = require("../middleware/authenticate");
 let sendgridTransport = require('nodemailer-sendgrid-transport')
-
+let urlport = process.env.PORT || 3000
 router.post("/createUser", async (req, res) => {
   try {
     let { name, email, password } = req.body;
@@ -30,7 +30,7 @@ router.post("/createUser", async (req, res) => {
       to : req.body.email,
       from : "ahmad.dev47@gmail.com",
       subject : `iNoteBook Email verification`,
-      html : `<p>Hi ${req.body.name} <a href="${process.env.PORT}/verify?token=${token}">click here</a> to verify you email for iNoteBook<p>`
+      html : `<p>Hi ${req.body.name} <a href="${urlport}/verify?token=${token}">click here</a> to verify you email for iNoteBook<p>`
     }) 
     
     res.status(200).json({ msg: "A Verification Email send to you", msgType: "success" });
@@ -64,7 +64,8 @@ router.post("/loginUser", async (req, res) => {
             to : req.body.email,
             from : "ahmad.dev47@gmail.com",
             subject : `Email verification`,
-            html : `<p>Hi ${userData.name} <a href="${process.env.PORT}/verify?token=${tokenForVerification}">click here</a> to verify you email<p>`
+            html : `<p>Hi ${userData.name} <a href="${urlport}/verify?token=${tokenForVerification}">click here</a> to verify you email<p>`
+          
           }) 
           res.status(401).json({ msg: `A Link has sent to "${req.body.email}" .Please Verify Email First`, msgType: "info" });
         }
