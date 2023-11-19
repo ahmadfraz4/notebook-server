@@ -8,7 +8,7 @@ let jwt = require('jsonwebtoken')
 let nodemailer = require('nodemailer')
 const authenticate = require("../middleware/authenticate");
 let sendgridTransport = require('nodemailer-sendgrid-transport')
-let urlport = process.env.PORT || 3000
+let urlport = 'https://notebook-server-production.up.railway.app/' || 3000
 router.post("/createUser", async (req, res) => {
   try {
     let { name, email, password } = req.body;
