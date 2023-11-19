@@ -5,7 +5,7 @@ let authenticate = async (req,res,next) =>{
     try {
         let token = req.cookies.jwtToken;
         if(!token){
-            res.redirect(`${process.env.FRONTEND_PATH}/login`);
+      
             return res.json({msg : 'Please Enable the cookies to access notes', msgType : 'error'})
         }
         let verifyToken = jwt.verify(token, process.env.SECRET_KEY)
