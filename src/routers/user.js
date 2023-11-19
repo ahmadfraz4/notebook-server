@@ -124,12 +124,19 @@ let mailSender = nodemailer.createTransport(sendgridTransport({
 }))
 router.get('/about',authenticate,async (req,res)=>{
   try {
-    let {name, email , _id, verified} = req.user
-    if(verified){
-      res.send({name, email , _id})
-    }  
+    let email = User.findOne({email:req.body.email})
+    if(email){
+      let {name, _id, verified} = req.user
+      let verification = email.verified
+      if(verification){
+        res.send({name, email , _id})
+      }  else{
+        res.json({msg : 'User is not verified', msgType:'error'})
+      }
+    }
+    
   } catch (error) {
-    res.json({msg: error , type : 'error'})
+    res.json({msg: error , msgType : 'error'})
   }
 })
 module.exports = router;
