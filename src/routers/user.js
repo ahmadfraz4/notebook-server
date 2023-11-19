@@ -8,7 +8,7 @@ let jwt = require('jsonwebtoken')
 let nodemailer = require('nodemailer')
 const authenticate = require("../middleware/authenticate");
 let sendgridTransport = require('nodemailer-sendgrid-transport')
-let urlport = 'https://notebook-server-production.up.railway.app/' || 3000
+let urlport = 'https://notebook-server-production.up.railway.app' || 3000
 router.post("/createUser", async (req, res) => {
   try {
     let { name, email, password } = req.body;
@@ -22,8 +22,8 @@ router.post("/createUser", async (req, res) => {
       return res.status(400).json({msg:'User Already Exist', msgType:'error'})
     }
     
-    let storing = await addUser.save();
     let registerToken =await storing.createToken();
+    let storing = await addUser.save();
     
     const token = jwt.sign({ _id: storing._id.toString() }, process.env.SECRET_KEY);
     mailSender.sendMail({
@@ -129,7 +129,7 @@ router.get('/about',authenticate,async (req,res)=>{
       res.send({name, email , _id})
     }  
   } catch (error) {
-    res.json({msg:'Unautherized', type : 'error'})
+    res.json({msg: error , type : 'error'})
   }
 })
 module.exports = router;
