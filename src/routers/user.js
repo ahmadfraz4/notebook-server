@@ -111,7 +111,14 @@ router.get('/verify', async (req, res) => {
 });
 router.post('/logout',async (req,res)=>{
   try {
-    res.clearCookie('jwtToken',{path : '/'});
+    res.clearCookie('jwtToken', {
+      path: '/',
+      domain: 'https://i-notes04.web.app', // Specify your domain
+      secure: process.env.NODE_ENV === 'production', // Set to true for HTTPS only
+      httpOnly: true,
+      sameSite: 'strict', // Adjust as needed
+    });
+    
     res.status(200).json({ msg: 'Logout successful', msgType: 'success' });
   } catch (error) {
     res.status(400).json({msg:error , msgType:'error'})
