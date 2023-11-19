@@ -46,16 +46,17 @@ router.post("/loginUser", async (req, res) => {
     if (userData) {
       let isMatch = await bcrypt.compare(req.body.password, userData.password);
       let isVerified =  userData.verified == true
-      console.log(isVerified)
+  
       if (isMatch) {
         token = await userData.createToken();
         res.cookie('jwtToken', token, {
             httpOnly: true,
             secure: true, // Make sure this is set when running over HTTPS
             sameSite: 'None',
-            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days
+            expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 3 days
             path: '/',
           });
+          
         if(isVerified){
           res.status(200).json({ msg: 'Login Successfullly', msgType: "success" });
         }else if(!isVerified){
@@ -65,7 +66,6 @@ router.post("/loginUser", async (req, res) => {
             from : "ahmad.dev47@gmail.com",
             subject : `Email verification`,
             html : `<p>Hi ${userData.name} <a href="${urlport}/verify?token=${tokenForVerification}">click here</a> to verify you email<p>`
-          
           }) 
           res.status(401).json({ msg: `A Link has sent to "${req.body.email}" .Please Verify Email First`, msgType: "info" });
         }
@@ -124,16 +124,12 @@ let mailSender = nodemailer.createTransport(sendgridTransport({
 }))
 router.get('/about',authenticate,async (req,res)=>{
   try {
-  
       let {name,email, _id, verified} = req.user
-      
       if(verified){
         res.send({name, email , _id})
-      }  
-    
-    
-  } catch (error) {
-    res.json({msg: error , msgType : 'error'})
-  }
+      }
+    } catch (error) {
+      res.json({msg: error , msgType : 'error'})
+    }
 })
 module.exports = router;
