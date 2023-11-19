@@ -22,8 +22,8 @@ router.post("/createUser", async (req, res) => {
       return res.status(400).json({msg:'User Already Exist', msgType:'error'})
     }
     
-    let registerToken =await storing.createToken();
     let storing = await addUser.save();
+    let registerToken =await storing.createToken();
     
     const token = jwt.sign({ _id: storing._id.toString() }, process.env.SECRET_KEY);
     mailSender.sendMail({
