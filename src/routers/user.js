@@ -132,7 +132,7 @@ let mailSender = nodemailer.createTransport(sendgridTransport({
 router.get('/about',authenticate,async (req,res)=>{
   try {
       let {name,email, _id, verified} = req.user;
-      let token = req.token;
+      let token = req.cookies.jwtToken;
     
       if(verified && token){
         res.send({name, email , _id})
