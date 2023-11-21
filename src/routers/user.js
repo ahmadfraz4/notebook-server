@@ -113,7 +113,7 @@ router.post('/logout',async (req,res)=>{
   try {
     res.clearCookie('jwtToken', {
       path: '/',
-      domain: 'https://i-notes04.web.app', // Specify your domain
+      domain: 'notebook-server-production.up.railway.app', // Specify your domain
       secure: process.env.NODE_ENV === 'production', // Set to true for HTTPS only
       httpOnly: true,
       sameSite: 'strict', // Adjust as needed
