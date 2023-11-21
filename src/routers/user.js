@@ -111,7 +111,7 @@ router.get('/verify', async (req, res) => {
 });
 router.post('/logout',async (req,res)=>{
   try {
-    res.clearCookie('jwtToken', {
+    req.clearCookie('jwtToken', {
       path: '/',
       domain: 'notebook-server-production.up.railway.app', // Specify your domain
       secure: process.env.NODE_ENV === 'production', // Set to true for HTTPS only
