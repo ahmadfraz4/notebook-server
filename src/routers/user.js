@@ -51,9 +51,9 @@ router.post("/loginUser", async (req, res) => {
         token = await userData.createToken();
         res.cookie('jwtToken', token, {
             httpOnly: true,
+            domain: 'notebook-server-production.up.railway.app',
             secure: true, // Make sure this is set when running over HTTPS
             sameSite: 'None',
-            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days
             path: '/',
           });
           
@@ -96,13 +96,13 @@ router.get('/verify', async (req, res) => {
     }
     // Mark the user as verified
     user.verified = true;
-    res.cookie('jwtToken', token, {
-      httpOnly: true,
-      secure: true, // Make sure this is set when running over HTTPS
-      sameSite: 'None',
-      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days
-      path: '/',
-    });
+     res.cookie('jwtToken', token, {
+            httpOnly: true,
+            domain: 'notebook-server-production.up.railway.app',
+            secure: true, // Make sure this is set when running over HTTPS
+            sameSite: 'None',
+            path: '/',
+      });
     await user.save();
     res.redirect(`${process.env.FRONTEND_PATH}/login`);
   } catch (error) {
@@ -111,7 +111,13 @@ router.get('/verify', async (req, res) => {
 });
 router.post('/logout',async (req,res)=>{
   try {
-    res.clearCookie('jwtToken');
+    res.clearCookie('jwtToken', {
+      path: '/',
+      domain: 'notebook-server-production.up.railway.app',
+      secure: true,
+      httpOnly: true,
+      sameSite: 'None',
+    });
     
     res.status(200).json({ msg: 'Logout successful', msgType: 'success' });
   } catch (error) {
