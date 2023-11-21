@@ -53,7 +53,7 @@ router.post("/loginUser", async (req, res) => {
             httpOnly: true,
             secure: true, // Make sure this is set when running over HTTPS
             sameSite: 'None',
-            expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 3 days
+            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days
             path: '/',
           });
           
