@@ -131,8 +131,10 @@ let mailSender = nodemailer.createTransport(sendgridTransport({
 }))
 router.get('/about',authenticate,async (req,res)=>{
   try {
-      let {name,email, _id, verified} = req.user
-      if(verified){
+      let {name,email, _id, verified} = req.user;
+      let token = req.token;
+    
+      if(verified && token){
         res.send({name, email , _id})
       }
     } catch (error) {
