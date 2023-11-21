@@ -111,13 +111,7 @@ router.get('/verify', async (req, res) => {
 });
 router.post('/logout',async (req,res)=>{
   try {
-    req.clearCookie('jwtToken', {
-      path: '/',
-      domain: 'notebook-server-production.up.railway.app', // Specify your domain
-      secure: process.env.NODE_ENV === 'production', // Set to true for HTTPS only
-      httpOnly: true,
-      sameSite: 'strict', // Adjust as needed
-    });
+    res.clearCookie('jwtToken');
     
     res.status(200).json({ msg: 'Logout successful', msgType: 'success' });
   } catch (error) {
